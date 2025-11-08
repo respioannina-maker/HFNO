@@ -62,5 +62,5 @@ async function loadRows() {
   const json = await apiFetch('fetch', nps ? { nps } : {});
   renderRows(Array.isArray(json) ? json : []);
 }
-$('#searchBtn').addEventListener('click', loadRows);
+document.getElementById('searchBtn').addEventListener('click', loadRows);
 loadRows();
