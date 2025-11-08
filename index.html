@@ -1,1 +1,113 @@
+<!doctype html>
+<html lang="el">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HFNO2 – Καταχώρηση</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{ --brand:#0b3d2e; --brand-2:#145a43; --paper:#0f172a; }
+    body{ background: var(--paper); color:#e2e8f0; }
+    .card{ background:#0b3d2e; border:1px solid #124b39; }
+    .btn{ background:#22c55e; color:#0b3d2e; font-weight:700; }
+    .btn:hover{ filter:brightness(1.05); }
+    .input, select{ background:#0b3d2e; border:1px solid #195843; color:#e2e8f0; }
+    .table th{ background:#145a43; }
+  </style>
+</head>
+<body class="min-h-screen">
+  <header class="py-6 border-b border-emerald-900">
+    <div class="max-w-5xl mx-auto px-4 flex items-center justify-between">
+      <h1 class="text-2xl font-bold">HFNO2 – Καταχώρηση Ασθενούς</h1>
+      <span class="text-sm bg-emerald-900/60 px-3 py-1 rounded-full">Πρωτόκολλο • ΝΠΣ</span>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 py-6 grid md:grid-cols-2 gap-6">
+    <!-- Φόρμα -->
+    <section class="card p-4 rounded-2xl shadow">
+      <h2 class="text-xl font-semibold mb-4">Φόρμα καταχώρησης</h2>
+      <form id="crfForm" class="grid grid-cols-2 gap-3">
+        <label class="text-sm">ΝΠΣ
+          <input class="input w-full rounded-lg p-2" name="ΝΠΣ" required />
+        </label>
+        <label class="text-sm">Ημερομηνία
+          <input class="input w-full rounded-lg p-2" name="Ημερομηνία" type="date" />
+        </label>
+        <label class="text-sm">Όνομα
+          <input class="input w-full rounded-lg p-2" name="Όνομα" />
+        </label>
+        <label class="text-sm">Επώνυμο
+          <input class="input w-full rounded-lg p-2" name="Επώνυμο" />
+        </label>
+
+        <!-- Σπιρομέτρηση / Αέρια -->
+        <label class="text-sm">FEV1 (L)
+          <input class="input w-full rounded-lg p-2" name="FEV1 (L)" type="number" step="0.01" />
+        </label>
+        <label class="text-sm">FEV1 (% προβλ.)
+          <input class="input w-full rounded-lg p-2" name="FEV1 (% προβλ.)" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">FVC (L)
+          <input class="input w-full rounded-lg p-2" name="FVC (L)" type="number" step="0.01" />
+        </label>
+        <label class="text-sm">FVC% (% προβλ.)
+          <input class="input w-full rounded-lg p-2" name="FVC% (% προβλ.)" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">FEV1/FVC (%)
+          <input class="input w-full rounded-lg p-2" name="FEV1/FVC (%)" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">pCO2 (mmHg)
+          <input class="input w-full rounded-lg p-2" name="pCO2 (mmHg)" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">pH
+          <input class="input w-full rounded-lg p-2" name="pH" type="number" min="6.8" max="7.8" step="0.001" />
+        </label>
+
+        <div class="col-span-2 flex gap-3 mt-2">
+          <button type="submit" class="btn rounded-xl px-4 py-2">Αποθήκευση</button>
+          <button type="button" id="resetBtn" class="rounded-xl px-4 py-2 border border-emerald-700">Καθαρισμός</button>
+        </div>
+        <p id="status" class="col-span-2 mt-2 text-sm opacity-90"></p>
+      </form>
+    </section>
+
+    <!-- Αναζήτηση / Λίστα -->
+    <section class="card p-4 rounded-2xl shadow">
+      <div class="flex items-end gap-3 mb-4">
+        <div class="grow">
+          <label class="text-sm block">Αναζήτηση ανά ΝΠΣ</label>
+          <input id="filterNps" class="input w-full rounded-lg p-2" placeholder="π.χ. 12345" />
+        </div>
+        <button id="searchBtn" class="btn rounded-xl px-4 py-2">Αναζήτηση</button>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="table w-full text-sm">
+          <thead>
+            <tr>
+              <th class="p-2 text-left">ΝΠΣ</th>
+              <th class="p-2 text-left">Ονοματεπώνυμο</th>
+              <th class="p-2 text-left">Ημερομηνία</th>
+              <th class="p-2 text-left">FEV1 (L)</th>
+              <th class="p-2 text-left">FEV1%</th>
+              <th class="p-2 text-left">FVC</th>
+              <th class="p-2 text-left">FEV1/FVC</th>
+              <th class="p-2 text-left">pCO₂</th>
+              <th class="p-2 text-left">pH</th>
+            </tr>
+          </thead>
+          <tbody id="rowsTbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // ΒΑΛΕ εδώ το Web App URL από το Apps Script Deploy
+    window.API_BASE = 'https://script.google.com/macros/s/AKfycbw6Zuv_5uW-6t2wiJaBCPt0LrkxBiLcFwUnGujMG4A2tWmBtPjiuRcnmX-owCwh4LW8/exec';
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>
 
