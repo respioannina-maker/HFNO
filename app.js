@@ -6,15 +6,20 @@ async function apiFetch(action, params = {}) {
   url.searchParams.set('action', action);
   Object.entries(params).forEach(([k,v]) => v!=null && url.searchParams.set(k, v));
   const res = await fetch(url.toString(), { method: 'GET' });
-  return res.json();
+  const txt = await res.text();
+  try { return JSON.parse(txt); }
+  catch { throw new Error("Το WebApp δεν επέστρεψε JSON (ήρθε HTML). Έλεγξε ότι το URL είναι το …/exec και το deployment είναι Public (Anyone)."); }
 }
+
 async function apiSave(payload) {
-  const res = await fetch(window.API_BASE, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action: 'save', payload })
-  });
-  return res.json();
+  // Χρήση GET για αποθήκευση ώστε να αποφεύγεται preflight/CORS σε GitHub Pages
+  const url = new URL(window.API_BASE);
+  url.searchParams.set('action', 'save');
+  url.searchParams.set('payload', encodeURIComponent(JSON.stringify(payload)));
+  const res = await fetch(url.toString(), { method: 'GET' });
+  const txt = await res.text();
+  try { return JSON.parse(txt); }
+  catch { throw new Error("Αποθήκευση: δεν ήρθε JSON (μάλλον HTML). Έλεγξε το …/exec και το access=Anyone."); }
 }
 
 // Φόρμα
@@ -35,7 +40,7 @@ form.addEventListener('submit', async (e) => {
     statusEl.textContent = 'Σφάλμα: ' + err.message;
   }
 });
-$('#resetBtn').addEventListener('click', () => form.reset());
+document.getElementById('resetBtn').addEventListener('click', () => form.reset());
 
 // Λίστα
 const tbody = document.getElementById('rowsTbody');
@@ -53,10 +58,15 @@ function renderRows(rows) {
       <td class="p-2">${r['FEV1/FVC (%)']||''}</td>
       <td class="p-2">${r['pCO2 (mmHg)']||''}</td>
       <td class="p-2">${r['pH']||''}</td>
+      <td class="p-2">${r['ODI4 (1/hr)']||''}</td>
+      <td class="p-2">${r['CT90 (=100-Below90)']||''}</td>
+      <td class="p-2">${r['CT88 (interp 90–85)']||''}</td>
+      <td class="p-2">${r['Mean SpO2 (EBUS)']||''}</td>
     `;
     tbody.appendChild(tr);
   });
 }
+
 async function loadRows() {
   const nps = document.getElementById('filterNps').value.trim();
   const json = await apiFetch('fetch', nps ? { nps } : {});
