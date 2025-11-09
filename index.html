@@ -28,7 +28,6 @@
     <section class="card p-4 rounded-2xl shadow">
       <h2 class="text-xl font-semibold mb-4">Φόρμα καταχώρησης</h2>
 
-      <!-- ======= FORM START ======= -->
       <form id="crfForm" class="grid grid-cols-2 gap-3">
         <!-- Βασικά -->
         <label class="text-sm">ΝΠΣ
@@ -162,7 +161,7 @@
           <input class="input w-full rounded-lg p-2" name="Rescue event (0/1)" type="number" min="0" max="1" step="1" />
         </label>
 
-        <!-- Below% EBUS (για αυτόματα CT_EBUS) -->
+        <!-- Below% EBUS -->
         <label class="text-sm">Below95_EBUS
           <input class="input w-full rounded-lg p-2" name="Below95_EBUS" type="number" step="0.1" />
         </label>
@@ -188,19 +187,11 @@
         </div>
         <p id="status" class="col-span-2 mt-2 text-sm opacity-90"></p>
       </form>
-      <!-- ======= FORM END ======= -->
     </section>
 
-    <!-- Αναζήτηση / Λίστα -->
+    <!-- Λίστα (όλα τα rows) -->
     <section class="card p-4 rounded-2xl shadow">
-      <div class="flex items-end gap-3 mb-4">
-        <div class="grow">
-          <label class="text-sm block">Αναζήτηση ανά ΝΠΣ</label>
-          <input id="filterNps" class="input w-full rounded-lg p-2" placeholder="π.χ. 12345" />
-        </div>
-        <button id="searchBtn" class="btn rounded-xl px-4 py-2">Αναζήτηση</button>
-      </div>
-
+      <h2 class="text-xl font-semibold mb-4">Καταχωρήσεις</h2>
       <div class="overflow-x-auto">
         <table class="table w-full text-sm">
           <thead>
@@ -209,11 +200,8 @@
               <th class="p-2 text-left">Ονοματεπώνυμο</th>
               <th class="p-2 text-left">Ημερομηνία</th>
               <th class="p-2 text-left">FEV1 (L)</th>
-              <th class="p-2 text-left">FEV1%</th>
               <th class="p-2 text-left">FVC</th>
               <th class="p-2 text-left">FEV1/FVC</th>
-              <th class="p-2 text-left">pCO₂</th>
-              <th class="p-2 text-left">pH</th>
               <th class="p-2 text-left">ODI4</th>
               <th class="p-2 text-left">CT90</th>
               <th class="p-2 text-left">CT88</th>
@@ -227,8 +215,7 @@
   </main>
 
   <script>
-    // ΒΑΛΕ εδώ το Web App URL από το Apps Script Deploy (…/exec)
-    window.API_BASE = 'https://script.google.com/macros/s/AKfycbyTQ8Z9F_ZhGLU5pjyOg-qDZ6pE3qVeA9LexaX0vZR1m1QVVaERMQn4QTYjOizD-YgV/exec';
+    window.API_BASE = 'https://script.google.com/macros/s/AKfycbx8pe0mFSO49gFO5AutnF_Cfn9Roc3vWSd65iblr-N8jhPbgkp7ALOrB33HX32XYvtg/exec'; /* π.χ. https://script.google.com/macros/s/XXXX/exec */
   </script>
   <script src="app.js"></script>
 </body>
