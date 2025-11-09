@@ -17,17 +17,20 @@
 </head>
 <body class="min-h-screen">
   <header class="py-6 border-b border-emerald-900">
-    <div class="max-w-5xl mx-auto px-4 flex items-center justify-between">
+    <div class="max-w-6xl mx-auto px-4 flex items-center justify-between">
       <h1 class="text-2xl font-bold">HFNO2 – Καταχώρηση Ασθενούς</h1>
       <span class="text-sm bg-emerald-900/60 px-3 py-1 rounded-full">Πρωτόκολλο • ΝΠΣ</span>
     </div>
   </header>
 
-  <main class="max-w-5xl mx-auto px-4 py-6 grid md:grid-cols-2 gap-6">
+  <main class="max-w-6xl mx-auto px-4 py-6 grid lg:grid-cols-2 gap-6">
     <!-- Φόρμα -->
     <section class="card p-4 rounded-2xl shadow">
       <h2 class="text-xl font-semibold mb-4">Φόρμα καταχώρησης</h2>
+
+      <!-- ======= FORM START ======= -->
       <form id="crfForm" class="grid grid-cols-2 gap-3">
+        <!-- Βασικά -->
         <label class="text-sm">ΝΠΣ
           <input class="input w-full rounded-lg p-2" name="ΝΠΣ" required />
         </label>
@@ -64,12 +67,128 @@
           <input class="input w-full rounded-lg p-2" name="pH" type="number" min="6.8" max="7.8" step="0.001" />
         </label>
 
+        <!-- Νυχτερινή Οξυμετρία -->
+        <div class="col-span-2 mt-3 font-semibold">Νυχτερινή οξυμετρία (nVISION)</div>
+        <label class="text-sm">% Artifact
+          <input class="input w-full rounded-lg p-2" name="% Artifact" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Duration (min)
+          <input class="input w-full rounded-lg p-2" name="Duration (min)" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Basal SpO2
+          <input class="input w-full rounded-lg p-2" name="Basal SpO2" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Minimum SpO2
+          <input class="input w-full rounded-lg p-2" name="Minimum SpO2" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Maximum SpO2
+          <input class="input w-full rounded-lg p-2" name="Maximum SpO2" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Average Low SpO2
+          <input class="input w-full rounded-lg p-2" name="Average Low SpO2" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Average Low SpO2 &lt;88%
+          <input class="input w-full rounded-lg p-2" name="Average Low SpO2 <88%" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Time (min) &lt;88%
+          <input class="input w-full rounded-lg p-2" name="Time (min) <88%" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Events &lt;88%
+          <input class="input w-full rounded-lg p-2" name="Events <88%" type="number" step="1" />
+        </label>
+        <label class="text-sm">Max Single Time &lt;88% (sec)
+          <input class="input w-full rounded-lg p-2" name="Max Single Time <88% (sec)" type="number" step="1" />
+        </label>
+        <label class="text-sm">ODI4 (1/hr)
+          <input class="input w-full rounded-lg p-2" name="ODI4 (1/hr)" type="number" step="0.1" />
+        </label>
+
+        <!-- Below (%) -->
+        <label class="text-sm">Below(100)
+          <input class="input w-full rounded-lg p-2" name="Below(100)" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Below(95)
+          <input class="input w-full rounded-lg p-2" name="Below(95)" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Below(90)
+          <input class="input w-full rounded-lg p-2" name="Below(90)" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Below(85)
+          <input class="input w-full rounded-lg p-2" name="Below(85)" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Below(80)
+          <input class="input w-full rounded-lg p-2" name="Below(80)" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Below(75)
+          <input class="input w-full rounded-lg p-2" name="Below(75)" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Below(70)
+          <input class="input w-full rounded-lg p-2" name="Below(70)" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Below(65)
+          <input class="input w-full rounded-lg p-2" name="Below(65)" type="number" step="0.1" />
+        </label>
+
+        <!-- EBUS (HFNO) -->
+        <div class="col-span-2 mt-3 font-semibold">EBUS (HFNO)</div>
+        <label class="text-sm">Mean SpO2 (EBUS)
+          <input class="input w-full rounded-lg p-2" name="Mean SpO2 (EBUS)" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Minimum SpO2 (EBUS)
+          <input class="input w-full rounded-lg p-2" name="Minimum SpO2 (EBUS)" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Time &lt;90% (EBUS) (min)
+          <input class="input w-full rounded-lg p-2" name="Time <90% (EBUS) (min)" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">ODI4 (EBUS)
+          <input class="input w-full rounded-lg p-2" name="ODI4 (EBUS)" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Mean Pulse
+          <input class="input w-full rounded-lg p-2" name="Mean Pulse" type="number" step="1" />
+        </label>
+        <label class="text-sm">Max Pulse
+          <input class="input w-full rounded-lg p-2" name="Max Pulse" type="number" step="1" />
+        </label>
+        <label class="text-sm">Procedure Duration (min)
+          <input class="input w-full rounded-lg p-2" name="Procedure Duration (min)" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">FiO2
+          <input class="input w-full rounded-lg p-2" name="FiO2" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Flow (L/min)
+          <input class="input w-full rounded-lg p-2" name="Flow (L/min)" type="number" step="1" />
+        </label>
+        <label class="text-sm">Rescue event (0/1)
+          <input class="input w-full rounded-lg p-2" name="Rescue event (0/1)" type="number" min="0" max="1" step="1" />
+        </label>
+
+        <!-- Below% EBUS (για αυτόματα CT_EBUS) -->
+        <label class="text-sm">Below95_EBUS
+          <input class="input w-full rounded-lg p-2" name="Below95_EBUS" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Below90_EBUS
+          <input class="input w-full rounded-lg p-2" name="Below90_EBUS" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Below85_EBUS
+          <input class="input w-full rounded-lg p-2" name="Below85_EBUS" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Time (min) &lt;88%_EBUS
+          <input class="input w-full rounded-lg p-2" name="Time (min) <88%_EBUS" type="number" step="0.1" />
+        </label>
+        <label class="text-sm">Events &lt;88%_EBUS
+          <input class="input w-full rounded-lg p-2" name="Events <88%_EBUS" type="number" step="1" />
+        </label>
+        <label class="text-sm">Max Single Time &lt;88% (sec)_EBUS
+          <input class="input w-full rounded-lg p-2" name="Max Single Time <88% (sec)_EBUS" type="number" step="1" />
+        </label>
+
         <div class="col-span-2 flex gap-3 mt-2">
           <button type="submit" class="btn rounded-xl px-4 py-2">Αποθήκευση</button>
           <button type="button" id="resetBtn" class="rounded-xl px-4 py-2 border border-emerald-700">Καθαρισμός</button>
         </div>
         <p id="status" class="col-span-2 mt-2 text-sm opacity-90"></p>
       </form>
+      <!-- ======= FORM END ======= -->
     </section>
 
     <!-- Αναζήτηση / Λίστα -->
@@ -95,6 +214,10 @@
               <th class="p-2 text-left">FEV1/FVC</th>
               <th class="p-2 text-left">pCO₂</th>
               <th class="p-2 text-left">pH</th>
+              <th class="p-2 text-left">ODI4</th>
+              <th class="p-2 text-left">CT90</th>
+              <th class="p-2 text-left">CT88</th>
+              <th class="p-2 text-left">Mean SpO2 (EBUS)</th>
             </tr>
           </thead>
           <tbody id="rowsTbody"></tbody>
@@ -104,8 +227,8 @@
   </main>
 
   <script>
-    // ΒΑΛΕ εδώ το Web Apphttps://script.google.com/macros/s/AKfycbzxX0Io3hqBLLaObYelMbUr9I1K4JtqaOg7RguoTitKp8N2EH2MCSYTL4NfZCVQurgt/exec URL από το Apps Script Deploy (…/exec)
-    window.API_BASE = '';
+    // ΒΑΛΕ εδώ το Web App URL από το Apps Script Deploy (…/exec)
+    window.API_BASE = 'https://script.google.com/macros/s/AKfycbyTQ8Z9F_ZhGLU5pjyOg-qDZ6pE3qVeA9LexaX0vZR1m1QVVaERMQn4QTYjOizD-YgV/exec';
   </script>
   <script src="app.js"></script>
 </body>
