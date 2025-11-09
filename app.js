@@ -1,28 +1,27 @@
 const $ = (s) => document.querySelector(s);
 const statusEl = $('#status');
 
-async function apiFetch(action, params = {}) {
+async function apiFetchAll() {
   const url = new URL(window.API_BASE);
-  url.searchParams.set('action', action);
-  Object.entries(params).forEach(([k,v]) => v!=null && url.searchParams.set(k, v));
+  url.searchParams.set('action', 'fetch');
   const res = await fetch(url.toString(), { method: 'GET' });
   const txt = await res.text();
   try { return JSON.parse(txt); }
-  catch { throw new Error("Το WebApp δεν επέστρεψε JSON (ήρθε HTML). Έλεγξε ότι το URL είναι το …/exec και το deployment είναι Public (Anyone)."); }
+  catch { throw new Error("Το WebApp δεν επέστρεψε JSON (ήρθε HTML). Βεβαιώσου ότι το URL είναι …/exec και access=Anyone."); }
 }
 
 async function apiSave(payload) {
-  // Χρήση GET για αποθήκευση ώστε να αποφεύγεται preflight/CORS σε GitHub Pages
+  // Αποθήκευση με GET για αποφυγή preflight/CORS
   const url = new URL(window.API_BASE);
   url.searchParams.set('action', 'save');
   url.searchParams.set('payload', encodeURIComponent(JSON.stringify(payload)));
   const res = await fetch(url.toString(), { method: 'GET' });
   const txt = await res.text();
   try { return JSON.parse(txt); }
-  catch { throw new Error("Αποθήκευση: δεν ήρθε JSON (μάλλον HTML). Έλεγξε το …/exec και το access=Anyone."); }
+  catch { throw new Error("Αποθήκευση: δεν ήρθε JSON (μάλλον HTML). Έλεγξε …/exec & access=Anyone."); }
 }
 
-// Φόρμα
+// Φόρμα: insert/update ανά ΝΠΣ
 const form = document.getElementById('crfForm');
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -42,7 +41,7 @@ form.addEventListener('submit', async (e) => {
 });
 document.getElementById('resetBtn').addEventListener('click', () => form.reset());
 
-// Λίστα
+// Λίστα (όλα τα rows)
 const tbody = document.getElementById('rowsTbody');
 function renderRows(rows) {
   tbody.innerHTML = '';
@@ -53,11 +52,8 @@ function renderRows(rows) {
       <td class="p-2">${[r['Όνομα']||'', r['Επώνυμο']||''].join(' ').trim()}</td>
       <td class="p-2">${r['Ημερομηνία']||''}</td>
       <td class="p-2">${r['FEV1 (L)']||''}</td>
-      <td class="p-2">${r['FEV1 (% προβλ.)']||''}</td>
       <td class="p-2">${r['FVC (L)']||''}</td>
       <td class="p-2">${r['FEV1/FVC (%)']||''}</td>
-      <td class="p-2">${r['pCO2 (mmHg)']||''}</td>
-      <td class="p-2">${r['pH']||''}</td>
       <td class="p-2">${r['ODI4 (1/hr)']||''}</td>
       <td class="p-2">${r['CT90 (=100-Below90)']||''}</td>
       <td class="p-2">${r['CT88 (interp 90–85)']||''}</td>
@@ -66,11 +62,8 @@ function renderRows(rows) {
     tbody.appendChild(tr);
   });
 }
-
 async function loadRows() {
-  const nps = document.getElementById('filterNps').value.trim();
-  const json = await apiFetch('fetch', nps ? { nps } : {});
-  renderRows(Array.isArray(json) ? json : []);
+  const data = await apiFetchAll();
+  renderRows(Array.isArray(data) ? data : []);
 }
-document.getElementById('searchBtn').addEventListener('click', loadRows);
 loadRows();
