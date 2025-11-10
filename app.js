@@ -16,7 +16,7 @@ $$('.tabbtn').forEach(btn=>{
 });
 if (window.innerWidth<768) document.querySelector('.tabbtn[data-tab="basic"]')?.click();
 
-// --- JSONP helper ---
+// JSONP helper
 function jsonp(url, params = {}) {
   return new Promise((resolve, reject) => {
     const u = new URL(url);
@@ -47,7 +47,7 @@ function apiSave(payload){
   });
 }
 
-// Form submit
+// Submit
 const form = document.getElementById('crfForm');
 form.addEventListener('submit', async (e)=>{
   e.preventDefault();
