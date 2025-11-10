@@ -11,7 +11,7 @@
     .card{ background:#0b3d2e; border:1px solid #124b39; }
     .btn{ background:#22c55e; color:#0b3d2e; font-weight:700; }
     .btn:hover{ filter:brightness(1.05); }
-    .input, select, textarea{ background:#0b3d2e; border:1px solid #195843; color:#e2e8f0; }
+    .input, select{ background:#0b3d2e; border:1px solid #195843; color:#e2e8f0; }
     .table th{ background:#145a43; }
   </style>
 </head>
@@ -39,7 +39,7 @@
       </div>
 
       <form id="crfForm" class="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <!-- ===== Βασικά (tab: basic) ===== -->
+        <!-- ===== Βασικά ===== -->
         <div data-tabpanel="basic" class="md:contents">
           <label class="text-sm">ΝΠΣ
             <input class="input w-full rounded-lg p-2" name="ΝΠΣ" required />
@@ -97,9 +97,8 @@
           </label>
         </div>
 
-        <!-- ===== Οξυμετρία/EBUS (tab: ox) ===== -->
+        <!-- ===== Οξυμετρία/EBUS ===== -->
         <div data-tabpanel="ox" class="hidden md:contents">
-          <!-- Νυχτερινή οξυμετρία -->
           <div class="md:col-span-2 font-semibold mt-2">Νυχτερινή οξυμετρία (nVISION)</div>
           <label class="text-sm">% Artifact
             <input class="input w-full rounded-lg p-2" name="% Artifact" type="number" step="0.1" />
@@ -135,7 +134,6 @@
             <input class="input w-full rounded-lg p-2" name="ODI4 (1/hr)" type="number" step="0.1" />
           </label>
 
-          <!-- Below (%) -->
           <label class="text-sm">Below(100)
             <input class="input w-full rounded-lg p-2" name="Below(100)" type="number" step="0.1" />
           </label>
@@ -161,7 +159,6 @@
             <input class="input w-full rounded-lg p-2" name="Below(65)" type="number" step="0.1" />
           </label>
 
-          <!-- EBUS (HFNO) -->
           <div class="md:col-span-2 font-semibold mt-2">EBUS (HFNO)</div>
           <label class="text-sm">Mean SpO2 (EBUS)
             <input class="input w-full rounded-lg p-2" name="Mean SpO2 (EBUS)" type="number" step="0.1" />
@@ -194,7 +191,6 @@
             <input class="input w-full rounded-lg p-2" name="Rescue event (0/1)" type="number" min="0" max="1" step="1" />
           </label>
 
-          <!-- Below% EBUS -->
           <label class="text-sm">Below95_EBUS
             <input class="input w-full rounded-lg p-2" name="Below95_EBUS" type="number" step="0.1" />
           </label>
@@ -252,10 +248,8 @@
   </main>
 
   <script>
-    // ΒΑΛΕ εδώ το Web App URL από το Apps Script Deploy (…/exec)
-    window.API_BASE = 'https://script.google.com/macros/s/AKfycbyaU6x_FveCatRbe-VAn7YlLcUiwqetUmoi7EMRX--z5SkVzOxXTVfV4ziAWwafeeM/exec';
+    window.API_BASE = 'https://script.google.com/macros/s/AKfycbyxaE6Moa2rvu6UeO8EDePo_CGPUUPb0YkOBOBKYyAHRpejX1OJU7ZYC6Jn2dontunJ/exec'; /* π.χ. https://script.google.com/macros/s/XXXXXXXX/exec */
   </script>
   <script src="app.js"></script>
 </body>
 </html>
-<script> window.API_BASE = 'https://script.google.com/macros/s/AKfycbyaU6x_FveCatRbe-VAn7YlLcUiwqetUmoi7EMRX--z5SkVzOxXTVfV4ziAWwafeeM/exec'; </script>
