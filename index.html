@@ -12,24 +12,18 @@
     .btn{ background:#22c55e; color:#0b3d2e; font-weight:700; }
     .btn:hover{ filter:brightness(1.05); }
     .input, select{ background:#0b3d2e; border:1px solid #195843; color:#e2e8f0; }
-    .table th{ background:#145a43; }
   </style>
 </head>
 <body class="min-h-screen">
   <header class="py-4 border-b border-emerald-900 sticky top-0 backdrop-blur bg-[#0f172a]/80 z-10">
-    <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
+    <div class="max-w-4xl mx-auto px-4 flex items-center justify-between">
       <h1 class="text-xl md:text-2xl font-bold">HFNO2 – Καταχώρηση Ασθενούς</h1>
-      <button id="toggleNav" class="md:hidden btn px-3 py-1 rounded-lg">Μενού</button>
-      <nav id="nav" class="hidden md:flex gap-3">
-        <a href="#form" class="underline-offset-4 hover:underline">Φόρμα</a>
-        <a href="#list" class="underline-offset-4 hover:underline">Καταχωρήσεις</a>
-      </nav>
+      <a id="openSheetBtn" class="hidden md:inline-block btn px-3 py-2 rounded-lg" target="_blank" rel="noopener">Άνοιγμα Google Sheet</a>
     </div>
   </header>
 
-  <main class="max-w-7xl mx-auto px-4 py-6 grid lg:grid-cols-2 gap-6">
-    <!-- Φόρμα -->
-    <section id="form" class="card p-4 rounded-2xl shadow">
+  <main class="max-w-4xl mx-auto px-4 py-6">
+    <section class="card p-4 rounded-2xl shadow">
       <h2 class="text-lg md:text-xl font-semibold mb-4">Φόρμα καταχώρησης</h2>
 
       <!-- Mobile tabs -->
@@ -211,44 +205,20 @@
           </label>
         </div>
 
-        <div class="md:col-span-2 flex flex-wrap gap-3 mt-2">
+        <div class="md:col-span-2 flex flex-wrap items-center gap-3 mt-2">
           <button type="submit" class="btn rounded-xl px-4 py-2">Αποθήκευση</button>
           <button type="button" id="resetBtn" class="rounded-xl px-4 py-2 border border-emerald-700">Καθαρισμός</button>
           <span id="status" class="text-sm opacity-90"></span>
         </div>
       </form>
     </section>
-
-    <!-- Λίστα -->
-    <section id="list" class="card p-4 rounded-2xl shadow">
-      <h2 class="text-lg md:text-xl font-semibold mb-4">Καταχωρήσεις</h2>
-      <div class="overflow-x-auto">
-        <table class="table w-full text-sm">
-          <thead>
-            <tr>
-              <th class="p-2 text-left">ΝΠΣ</th>
-              <th class="p-2 text-left">Ονοματεπώνυμο</th>
-              <th class="p-2 text-left">Ημερομηνία</th>
-              <th class="p-2 text-left">Ηλικία</th>
-              <th class="p-2 text-left">BMI</th>
-              <th class="p-2 text-left">STOP-BANG</th>
-              <th class="p-2 text-left">FEV1 (L)</th>
-              <th class="p-2 text-left">FVC</th>
-              <th class="p-2 text-left">FEV1/FVC</th>
-              <th class="p-2 text-left">ODI4</th>
-              <th class="p-2 text-left">CT90</th>
-              <th class="p-2 text-left">CT88</th>
-              <th class="p-2 text-left">Mean SpO2 (EBUS)</th>
-            </tr>
-          </thead>
-          <tbody id="rowsTbody"></tbody>
-        </table>
-      </div>
-    </section>
   </main>
 
   <script>
-    window.API_BASE = 'https://script.google.com/macros/s/AKfycbzjp0EhncYRyoEQ3fLTkxUT49Ao4LltoFBo8Ej6YGhSQvfXez8-2oB3ZsD5yCtBQKI/exec'; /* π.χ. https://script.google.com/macros/s/XXXXXXXX/exec */
+    // ΒΑΛΕ το Web App URL από το Apps Script Deploy (…/exec)
+    window.API_BASE = 'https://script.google.com/macros/s/AKfycbyj8PrqyllyxC9Lb9aIEZ6MN8cdVUifGPO8EZmLnk3kb68QYmOuAPFhY4EaxkobDibg/exec';
+    // (Προαιρετικά) βάλε το URL του Sheet για το κουμπί
+    window.SHEET_URL = '13M_m2z-8HYPT6U-IMIlk-4eByjIzqnk-MlxBzHheldU';
   </script>
   <script src="app.js"></script>
 </body>
