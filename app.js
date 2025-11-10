@@ -2,8 +2,14 @@ const $ = (s) => document.querySelector(s);
 const $$ = (s) => document.querySelectorAll(s);
 const statusEl = $('#status');
 
-// Mobile nav & tabs
-$('#toggleNav')?.addEventListener('click', () => $('#nav').classList.toggle('hidden'));
+// Προαιρετικό κουμπί "Άνοιγμα Google Sheet"
+const openBtn = $('#openSheetBtn');
+if (openBtn && window.SHEET_URL && window.SHEET_URL.startsWith('http')) {
+  openBtn.href = window.SHEET_URL;
+  openBtn.classList.remove('hidden');
+}
+
+// Mobile tabs
 $$('.tabbtn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     const target=btn.getAttribute('data-tab');
@@ -38,8 +44,7 @@ function jsonp(url, params = {}) {
   });
 }
 
-// API via JSONP
-function apiFetchAll(){ return jsonp(window.API_BASE, { action: 'fetch' }); }
+// API via JSONP (only save used here)
 function apiSave(payload){
   return jsonp(window.API_BASE, {
     action: 'save',
@@ -58,46 +63,10 @@ form.addEventListener('submit', async (e)=>{
   try{
     const json = await apiSave(payload);
     if(!json || json.ok!==true) throw new Error((json && json.error) || 'Σφάλμα');
-    statusEl.textContent = json.result.status==='updated' ? 'Ενημερώθηκε η εγγραφή' : 'Καταχωρήθηκε νέα εγγραφή';
-    await loadRows();
+    statusEl.textContent = json.result.status==='updated' ? 'Ενημερώθηκε η εγγραφή' : 'Καταχωρήθηκε νέα εγγραφή (κορυφή)';
     form.reset();
   }catch(err){
     statusEl.textContent='Σφάλμα: '+err.message;
   }
 });
-document.getElementById('resetBtn').addEventListener('click', ()=>form.reset());
-
-// List
-const tbody = document.getElementById('rowsTbody');
-function renderRows(rows){
-  const arr = Array.isArray(rows) ? rows : [];
-  tbody.innerHTML='';
-  arr.forEach(r=>{
-    const tr=document.createElement('tr');
-    tr.innerHTML=`
-      <td class="p-2">${r['ΝΠΣ']||''}</td>
-      <td class="p-2">${[r['Όνομα']||'', r['Επώνυμο']||''].join(' ').trim()}</td>
-      <td class="p-2">${r['Ημερομηνία']||''}</td>
-      <td class="p-2">${r['Ηλικία']||''}</td>
-      <td class="p-2">${r['BMI']||''}</td>
-      <td class="p-2">${r['STOP-BANG score']||''}</td>
-      <td class="p-2">${r['FEV1 (L)']||''}</td>
-      <td class="p-2">${r['FVC (L)']||''}</td>
-      <td class="p-2">${r['FEV1/FVC (%)']||''}</td>
-      <td class="p-2">${r['ODI4 (1/hr)']||''}</td>
-      <td class="p-2">${r['CT90 (=100-Below90)']||''}</td>
-      <td class="p-2">${r['CT88 (interp 90–85)']||''}</td>
-      <td class="p-2">${r['Mean SpO2 (EBUS)']||''}</td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
-async function loadRows(){
-  try{
-    const data=await apiFetchAll();
-    renderRows(data);
-  }catch(err){
-    statusEl.textContent='Σφάλμα φόρτωσης: '+err.message;
-  }
-}
-loadRows();
+$('#resetBtn').addEventListener('click', ()=>form.reset());
